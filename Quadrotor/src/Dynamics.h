@@ -197,10 +197,9 @@ public:
 		xdot[7] = x[10] + x[8]*x[9]  - x[6]*x[11];
 		xdot[8] = x[11] - x[7]*x[9]  + x[6]*x[10];
 
-		xdot[9] =  roll_latency   * (u[0] - x[9] ); 
+		xdot[9] =  roll_latency   * (u[0] - x[9]); 
 		xdot[10] = pitch_latency  * (u[1] - x[10]); 
 		xdot[11] = yaw_latency    * (u[2] - x[11]); 
-
 		xdot[12] = thrust_latency * (u[3] - x[12]); 
 
 		return xdot;
@@ -208,6 +207,7 @@ public:
 
 	//jacobian of the dynamic function
 	Matrix<X_DIM, X_DIM> Jacobian_fx(const Matrix<X_DIM>& x, const Matrix<3,3>& R, const Matrix<U_DIM>& u) {
+
 		Matrix<X_DIM, X_DIM> result = zeros<X_DIM, X_DIM>();
 
 		result(0,3) = 1;
@@ -300,7 +300,7 @@ public:
 		return result;
 	}
 
-	//compute the linearized version jacobian
+	//compute the linearized version jacobian:  bar_x_t+1 = A * bar_x_t + B * bar_u + mm.  mm~ (0, MM) 
 	void linearizeDiscretize(const Matrix<X_DIM>& x, const Matrix<3,3>& R, const Matrix<U_DIM>& u, const Matrix<X_DIM,X_DIM>& M, Matrix<X_DIM,X_DIM>& A, Matrix<X_DIM,U_DIM>& B, Matrix<X_DIM,X_DIM>& MM) {
 		Matrix<X_DIM,X_DIM> F = Jacobian_fx(x,R,u);
 		Matrix<X_DIM,U_DIM> G = Jacobian_fu(x,R,u);
@@ -311,7 +311,7 @@ public:
 
 		// Simpson's integration approximation of Int[0,dt] exp(F*T) dT G
 		B = (dt/6) * (G + 4*(A2*G) + A*G);
-		MM = (dt/6) * (M + 4*A2*M*~A2 + A*M*~A);
+		MM = (dt/6) * (M + 4*A2*M*~A2 + A*M*~A);  
 	}
 
 	//without noise: dynamics function.
