@@ -4,7 +4,7 @@
 #define _CRT_RAND_S
 
 #include <math.h>
-
+#include "callisto.h"
 
 
 inline double random() {
@@ -552,5 +552,20 @@ inline double incompletegamma(double a, double x)
     result = ans*ax/a;
     return result;
 }
+
+
+inline void moveQuadrotor(const int& cal_quadrotor, const Matrix<X_DIM>&  x, const Matrix<3,3>& Rotation)
+{
+	Matrix<3,3> Rot = Rotation;
+	//Rot(2,2)  = -1;
+	Matrix<4> q = quatFromRot(Rot);
+	float p[3] = {(float) x[0], (float) x[1], (float) x[2]};
+
+	CAL_SetGroupQuaternion(cal_quadrotor, q[0], q[1], q[2], q[3]);
+	CAL_SetGroupPosition(cal_quadrotor, p[0], p[1], p[2]);
+
+}
+
+
 
 #endif

@@ -109,6 +109,7 @@
   <ItemGroup>
     <ClInclude Include="callisto.h" />
     <ClInclude Include="Dynamics.h" />
+    <ClInclude Include="RRT.h" />
     <CustomBuildStep Include="matrix.h" />
     <CustomBuildStep Include="RRTDCPlanner.h" />
     <CustomBuildStep Include="utils.h" />

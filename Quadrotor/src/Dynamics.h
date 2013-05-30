@@ -315,16 +315,16 @@ public:
 	}
 
 	//without noise: dynamics function.
-	void propagate(Matrix<X_DIM>& x, Matrix<3,3>& R, const Matrix<U_DIM>& u) {
-		Matrix<X_DIM,X_DIM> F = Jacobian_fx(x,R,u);
-		Matrix<X_DIM> xDot = f(x,R,u);
+	void propagate(const Matrix<X_DIM>& x_old, const Matrix<3,3>& Rot_old, Matrix<X_DIM>& x, Matrix<3,3>& R, const Matrix<U_DIM>& u) {
+		Matrix<X_DIM,X_DIM> F = Jacobian_fx(x_old,Rot_old,u);
+		Matrix<X_DIM> xDot = f(x_old,Rot_old,u);
 
 		Matrix<X_DIM,X_DIM> A = exp(dt*F);
 
 		Matrix<X_DIM,X_DIM> A2 = exp((dt*0.5)*F);
-		x = x + (dt/6)*(xDot + 4*(A2*xDot) + A*xDot);
+		x = x_old + (dt/6)*(xDot + 4*(A2*xDot) + A*xDot);
 		// reset rotation-error in xNew into RNew
-		R = R*exp(skewSymmetric(x.subMatrix<3,1>(6,0)));
+		R = Rot_old*exp(skewSymmetric(x.subMatrix<3,1>(6,0)));
 		x[6] = 0; x[7] = 0; x[8] = 0;
 	}
 
