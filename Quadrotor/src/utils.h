@@ -1,7 +1,11 @@
 #ifndef __UTILS_H__
 #define __UTILS_H__
 
+#define _CRT_RAND_S
+
 #include <math.h>
+
+
 
 inline double random() {
 	unsigned int i;
@@ -124,6 +128,16 @@ inline Matrix<3,3> rotFromQuat(const Matrix<4,1>& q) {
 	R(2,0) =  2*x*z - 2*y*w;     R(2,1) = 2*y*z + 2*x*w;     R(2,2) = 1 - 2*x*x - 2*y*y;
 	return R;
 }
+
+inline Matrix<3,3> skewSymmetric(const Matrix<3>& vector) {
+  Matrix<3,3> result = zeros<3,3>();
+  result(0,1) = -vector[2]; result(0,2) = vector[1];
+  result(1,0) = vector[2];    result(1,2) = -vector[0];
+  result(2,0) = -vector[1]; result(2,1) = vector[0];
+
+  return result;
+}
+
 
 inline Matrix<4,1> quatFromRot(const Matrix<3,3>& R) {
 	double x = R(2,1) - R(1,2);

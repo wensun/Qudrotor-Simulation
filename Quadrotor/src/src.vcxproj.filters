@@ -19,19 +19,7 @@
     <ClInclude Include="callisto.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Environment.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RRTNode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Dynamics.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Controller.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LQGMP.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
